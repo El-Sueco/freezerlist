@@ -16,7 +16,7 @@ class HelloWorldController {
     @GetMapping("/")
     fun getHelloWorld(): ResponseEntity<HelloWorld> {
         log.info("getHelloWorld, getting HelloWorld")
-        var helloWorld = HelloWorld();
+        val helloWorld = HelloWorld()
         helloWorld.hello = "hi"
         helloWorld.world = "jupiter"
         return ResponseEntity.ok(helloWorld)
