@@ -1,0 +1,5 @@
+docker build -t freezerlist .
+docker buildx build --platform linux/arm64 -t freezerlist:latest .
+docker run -p 8080:8080 --name freezerlist freezerlist
+docker tag freezerlist thisiselsueco/freezerlist:latest
+docker push thisiselsueco/freezerlist:latest
