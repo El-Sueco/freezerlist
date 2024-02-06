@@ -21,4 +21,9 @@ public class HelloWorld {
     public void setWorld(String world) {
         this.world = world;
     }
+
+    @Override
+    public String toString() {
+        return "{\"hello\": " + hello + ", \"world\": " + world + "}";
+    }
 }
