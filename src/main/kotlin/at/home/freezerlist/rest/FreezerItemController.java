@@ -21,7 +21,13 @@ public class FreezerItemController {
     @GetMapping
     public ResponseEntity<List<FreezerItem>> getFreezerItemList() {
         log.info("getFreezerItemList, getting freezerItemList");
-        return ResponseEntity.ok(freezerItemService.getFreezerItemList());
+        return ResponseEntity.ok(freezerItemService.getFreezerItem());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<FreezerItem> getFreezerItem(@PathVariable("id") Long id) {
+        log.info("getFreezerItemList, getting freezerItemList");
+        return ResponseEntity.ok(freezerItemService.getFreezerItem(id));
     }
 
     @PostMapping
@@ -32,14 +38,14 @@ public class FreezerItemController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FreezerItem> updateFreezerItem(@PathVariable("id") String id, @RequestBody FreezerItem freezerItem) {
+    public ResponseEntity<FreezerItem> updateFreezerItem(@PathVariable("id") Long id, @RequestBody FreezerItem freezerItem) {
         log.info("updateFreezerItem, update FreezerItem {} with {}", id, freezerItem);
         FreezerItem freezerItemUpdated = freezerItemService.updateFreezerItem(id, freezerItem);
         return ResponseEntity.ok(freezerItemUpdated);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFreezerItem(@PathVariable("id") String id) {
+    public ResponseEntity<Void> deleteFreezerItem(@PathVariable("id") Long id) {
         log.info("deleteFreezerItem, delete FreezerItem {}", id);
         freezerItemService.deleteFreezerItem(id);
         return ResponseEntity.ok().build();

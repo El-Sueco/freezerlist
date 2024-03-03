@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class FreezerItemServiceImpl implements FreezerItemService {
@@ -21,10 +22,19 @@ public class FreezerItemServiceImpl implements FreezerItemService {
     private ModelMapper modelMapper;
 
     @Override
-    public ArrayList<FreezerItem> getFreezerItemList() {
+    public ArrayList<FreezerItem> getFreezerItem() {
         List<FreezerItemModel> freezerItemModelList = freezerItemRepository.findAll();
         return modelMapper.map(freezerItemModelList, new TypeToken<List<FreezerItem>>() {
         }.getType());
+    }
+
+    @Override
+    public FreezerItem getFreezerItem(Long id) {
+        Optional<FreezerItemModel> optionalFreezerItemModel = freezerItemRepository.findById(id);
+        if (optionalFreezerItemModel.isEmpty()) {
+            throw new UnsupportedOperationException("item with id " + id + " not found");
+        }
+        return modelMapper.map(optionalFreezerItemModel.get(), FreezerItem.class);
     }
 
     @Override
@@ -33,17 +43,30 @@ public class FreezerItemServiceImpl implements FreezerItemService {
         freezerItemModel.setContent(freezerItem.getContent());
         freezerItemModel.setFreezedate(freezerItem.getFreezedate());
         freezerItemModel = freezerItemRepository.save(freezerItemModel);
-        return modelMapper.map(freezerItemModel,  new TypeToken<FreezerItem>(){}.getType());
+        return modelMapper.map(freezerItemModel, new TypeToken<FreezerItem>() {
+        }.getType());
     }
 
     @Override
-    public FreezerItem updateFreezerItem(String id, FreezerItem freezerItem) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public FreezerItem updateFreezerItem(Long id, FreezerItem freezerItem) {
+        Optional<FreezerItemModel> optionalFreezerItemModel = freezerItemRepository.findById(id);
+        if (optionalFreezerItemModel.isEmpty()) {
+            throw new UnsupportedOperationException("item with id " + id + " not found");
+        }
+        FreezerItemModel freezerItemModel = optionalFreezerItemModel.get();
+        freezerItemModel.setContent(freezerItem.getContent());
+        freezerItemModel.setFreezedate(freezerItem.getFreezedate());
+        freezerItemRepository.save(freezerItemModel);
+        return modelMapper.map(freezerItemModel, FreezerItem.class);
     }
 
     @Override
-    public void deleteFreezerItem(String id) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public void deleteFreezerItem(Long id) {
+        Optional<FreezerItemModel> optionalFreezerItemModel = freezerItemRepository.findById(id);
+        if (optionalFreezerItemModel.isEmpty()) {
+            throw new UnsupportedOperationException("item with id " + id + " not found");
+        }
+        freezerItemRepository.delete(optionalFreezerItemModel.get());
     }
 }
 
