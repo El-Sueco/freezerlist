@@ -7,7 +7,17 @@ public class FreezerItem {
 
     private String content;
 
+    private Drawer drawer;
+
     private LocalDate freezedate;
+
+    public Drawer getDrawer() {
+        return drawer;
+    }
+
+    public void setDrawer(Drawer drawer) {
+        this.drawer = drawer;
+    }
 
     public Long getId() {
         return id;

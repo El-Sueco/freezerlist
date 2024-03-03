@@ -19,9 +19,23 @@ public class FreezerItemModel {
     @Column(name="content", unique=false, updatable=true, nullable=false)
     private String content;
 
+    @Column(name="drawer", unique=false, updatable=true, nullable=false)
+    private DrawerModel drawer;
+
     @Column(name="username", unique=false, updatable=true, nullable=false)
     private LocalDate freezedate;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public DrawerModel getDrawer() {
+        return drawer;
+    }
+
+    public void setDrawer(DrawerModel drawer) {
+        this.drawer = drawer;
+    }
 
     public Long getId() {
         return id;
