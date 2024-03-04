@@ -255,6 +255,8 @@
                     </div>
                 </div>
             </div>
+            <div id="imgtest">
+            </div>
             <table id="itemTable" class="table table-striped table-hover">
                 <thead>
                 <tr>
@@ -358,6 +360,16 @@
                 {"mData": "id"}
             ]
         })
+        $.ajax({
+            url: "/api/2/image",
+            method: "GET",
+            success: function (data, msg) {
+                console.log(data)
+                var text = '<img src="data:image/png;base64,' + data + '"/>'
+                $("#imgtest").html(text);
+            }
+        });
+
     });
 </script>
 </html>

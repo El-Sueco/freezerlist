@@ -44,6 +44,7 @@ public class FreezerItemServiceImpl implements FreezerItemService {
         freezerItemModel.setContent(freezerItem.getContent());
         freezerItemModel.setFreezedate(freezerItem.getFreezedate());
         freezerItemModel.setDrawer(DrawerModel.valueOf(freezerItem.getDrawer().name()));
+        freezerItemModel.setImage(freezerItem.getImage());
         freezerItemModel = freezerItemRepository.save(freezerItemModel);
         return modelMapper.map(freezerItemModel, new TypeToken<FreezerItem>() {
         }.getType());
@@ -59,6 +60,7 @@ public class FreezerItemServiceImpl implements FreezerItemService {
         freezerItemModel.setContent(freezerItem.getContent());
         freezerItemModel.setFreezedate(freezerItem.getFreezedate());
         freezerItemModel.setDrawer(DrawerModel.valueOf(freezerItem.getDrawer().name()));
+        freezerItemModel.setImage(freezerItem.getImage());
         freezerItemRepository.save(freezerItemModel);
         return modelMapper.map(freezerItemModel, FreezerItem.class);
     }

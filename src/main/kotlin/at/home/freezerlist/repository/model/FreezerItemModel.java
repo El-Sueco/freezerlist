@@ -25,6 +25,18 @@ public class FreezerItemModel {
     @Column(name="username", unique=false, updatable=true, nullable=false)
     private LocalDate freezedate;
 
+    @Lob
+    @Column(name="image", unique=false, updatable=true, nullable=true)
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

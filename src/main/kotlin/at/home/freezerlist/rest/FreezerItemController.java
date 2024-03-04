@@ -38,7 +38,7 @@ public class FreezerItemController {
         return ResponseEntity.ok(freezerItemCreated);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<FreezerItem> updateFreezerItem(@PathVariable("id") Long id, @RequestBody FreezerItem freezerItem) {
         log.info("updateFreezerItem, update FreezerItem {} with {}", id, freezerItem);
         FreezerItem freezerItemUpdated = freezerItemService.updateFreezerItem(id, freezerItem);

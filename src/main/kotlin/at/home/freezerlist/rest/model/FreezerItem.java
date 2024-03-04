@@ -11,6 +11,16 @@ public class FreezerItem {
 
     private LocalDate freezedate;
 
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public Drawer getDrawer() {
         return drawer;
     }
