@@ -5,7 +5,9 @@ import java.io.IOException;
 
 public interface FreezerItemImageService {
 
-    String addImage(Long id, byte[] image) throws IOException;
+    String addImage(Long id, byte[] image);
+
+    String addImage(Long id, String image);
 
     void removeImage(Long id);
 

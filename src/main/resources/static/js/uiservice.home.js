@@ -1,15 +1,27 @@
+
 $(document).ready(function(){
-    $.noConflict();
+    var $=jQuery.noConflict();
     var table = $('#itemTable').DataTable({
+        "searching": false,
+        "paging": false,
+        "info": false,
         "sAjaxSource": "/api",
         "sAjaxDataProp": "",
         "aoColumns": [
             {"mData": "content"},
-            {"mData": "drawer"},
+            {"mRender": function(data, type, full) {
+                if (full["drawer"] === "BOTTOM"){
+                    return "Unten";
+                } else if (full["drawer"] === "MIDDLE"){
+                    return "Mitte";
+                } else if (full["drawer"] === "TOP") {
+                    return "Oben";
+                }
+            }},
             {"mData": "freezedate"},
             {"mRender": function(data, type, full) {
-                return '<a class="btn btn-info btn-sm viewEditItemModalButton" data-toggle="modal" data-id="' + full["id"] + '" href="#viewEditItemModal">Show/Edit</a>' +
-                '<a class="btn btn-danger btn-sm deleteItemModalButton" data-toggle="modal" data-id="' + full["id"] + '">Delete</a>';
+                return '<a class="btn btn-primary editItemModalButton" data-toggle="modal" data-id="' + full["id"] + '" data-target="#editItemModal"><i class="bi bi-search"></i> / <i class="bi bi-pen"></i></a><span> </span>' +
+                '<a class="btn btn-outline-danger deleteItemModalButton" data-toggle="modal" data-id="' + full["id"] + '"><i class="bi bi-trash"></i></a>';
             }}
         ]
     })
@@ -21,30 +33,64 @@ $(document).ready(function(){
             $("#imgtest").html(text);
         }
     });
-    $(document).on("click", ".viewEditItemModalButton", function () {
+    $(document).on("click", ".editItemModalButton", function () {
         var id = $(this).data('id');
         $.ajax({
             url: "/api/" + id,
             method: "GET",
             success: function (data, msg) {
-                $("#showEditItemId").val(data.id);
-                $("#showEditItemContent").val(data.content);
-                $("#showEditItemDrawer").val(data.drawer);
-                $("#showEditItemDate").val(data.date);
+                $("#editItemId").val(data.id);
+                $("#editItemContent").val(data.content);
+                $("#editItemDrawer").val(data.drawer);
+                $("#editItemDate").val(data.freezedate);
                 if(data.image !== null) {
-                    $("#showEditItemImageDisplay").attr('src', 'data:image/png;base64,' + data.image);
+                    $("#editItemImageDisplay").attr('src', 'data:image/png;base64,' + data.image);
                 } else {
-                    $("#showEditItemImageDisplay").removeAttr('src');
+                    $("#editItemImageDisplay").removeAttr('src');
                 }
             }
         });
     });
-    $(document).on("change", "#showEditItemImageInput", function() {
+    $("#editModalForm").on("submit", function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: "/api" + ($("#editItemId").val() != '' ? "/" + $("#editItemId").val() : ''),
+            method: $("#editItemId").val() != '' ? "PUT" : "POST",
+            dataType: 'json',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify({
+                "id": $("#editItemId").val(),
+                "content": $("#editItemContent").val(),
+                "drawer": $("#editItemDrawer option:selected" ).attr("value"),
+                "freezedate": $("#editItemDate").val(),
+                "image": $('#editItemImageDisplay').attr('src') != null ? $("#editItemImageDisplay").attr("src").substring($("#editItemImageDisplay").attr("src").lastIndexOf(",") + 1) : null
+
+            }),
+            success: function (data, msg) {
+                $("#editModalForm").trigger("reset");
+                $('#editItemImageDisplay').removeAttr('src');
+                $('#itemTable').DataTable().ajax.reload();
+                $(".close").click();
+            }
+        });
+    });
+    $('#editItemModal').on('hidden.bs.modal', function(){
+        destroyEditModal();
+    });
+    function destroyEditModal() {
+        $("#editModalForm").trigger("reset");
+        $('#editItemImageDisplay').removeAttr('src');
+        $('#editItemId').removeAttr("value");
+    }
+    $(document).on("change", "#editItemImageInput", function() {
         var input = this;
         var reader = new FileReader();
 
         reader.onload = function (e) {
-          $('#showEditItemImageDisplay').attr('src', e.target.result);
+            $('#editItemImageDisplay').attr('src', e.target.result);
         };
 
         reader.readAsDataURL(input.files[0]);

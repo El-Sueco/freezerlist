@@ -24,7 +24,13 @@ public class FreezerItemImageController {
     private FreezerItemImageService freezerItemImageService;
 
     @RequestMapping(method = RequestMethod.PUT, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String> addImage(@PathVariable("id") Long id, @RequestPart byte[] image) throws IOException {
+    public ResponseEntity<String> addImage(@PathVariable("id") Long id, @RequestPart byte[] image) {
+        log.info("getFreezerItemList, getting freezerItemList");
+        return ResponseEntity.ok(freezerItemImageService.addImage(id, image));
+    }
+
+    @RequestMapping(path = "/base64", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> addImage(@PathVariable("id") Long id, @RequestPart String image) {
         log.info("getFreezerItemList, getting freezerItemList");
         return ResponseEntity.ok(freezerItemImageService.addImage(id, image));
     }

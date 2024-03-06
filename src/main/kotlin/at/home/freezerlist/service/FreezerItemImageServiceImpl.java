@@ -17,7 +17,7 @@ public class FreezerItemImageServiceImpl implements FreezerItemImageService {
     private FreezerItemRepository freezerItemRepository;
 
     @Override
-    public String addImage(Long id, byte[] image) throws IOException {
+    public String addImage(Long id, byte[] image) {
         Optional<FreezerItemModel> optionalFreezerItemModel = freezerItemRepository.findById(id);
         if (optionalFreezerItemModel.isEmpty()) {
             throw new UnsupportedOperationException("item with id " + id + " not found");
@@ -25,6 +25,18 @@ public class FreezerItemImageServiceImpl implements FreezerItemImageService {
         FreezerItemModel freezerItemModel = optionalFreezerItemModel.get();
         String encodedFile = Base64.getEncoder().encodeToString(image);
         freezerItemModel.setImage(encodedFile);
+        freezerItemModel = freezerItemRepository.save(freezerItemModel);
+        return freezerItemModel.getImage();
+    }
+
+    @Override
+    public String addImage(Long id, String image) {
+        Optional<FreezerItemModel> optionalFreezerItemModel = freezerItemRepository.findById(id);
+        if (optionalFreezerItemModel.isEmpty()) {
+            throw new UnsupportedOperationException("item with id " + id + " not found");
+        }
+        FreezerItemModel freezerItemModel = optionalFreezerItemModel.get();;
+        freezerItemModel.setImage(image);
         freezerItemModel = freezerItemRepository.save(freezerItemModel);
         return freezerItemModel.getImage();
     }
