@@ -9,18 +9,9 @@ $(document).ready(function(){
         "sAjaxDataProp": "",
         "aoColumns": [
             {"mData": "content"},
-            {"mRender": function(data, type, full) {
-                if (full["drawer"] === "BOTTOM"){
-                    return "Unten";
-                } else if (full["drawer"] === "MIDDLE"){
-                    return "Mitte";
-                } else if (full["drawer"] === "TOP") {
-                    return "Oben";
-                }
-            }},
             {"mData": "freezedate"},
             {"mRender": function(data, type, full) {
-                return '<a class="btn btn-primary editItemModalButton" data-toggle="modal" data-id="' + full["id"] + '" data-target="#editItemModal"><i class="bi bi-search"></i> / <i class="bi bi-pen"></i></a><span> </span>' +
+                return '<a class="btn btn-primary editItemModalButton" data-toggle="modal" data-id="' + full["id"] + '" data-target="#editItemModal"><i class="bi bi-search"></i>' +
                 '<a class="btn btn-outline-danger deleteItemModalButton" data-toggle="modal" data-id="' + full["id"] + '"><i class="bi bi-trash"></i></a>';
             }}
         ]
