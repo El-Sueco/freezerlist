@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { DataTablesModule } from "angular-datatables";
 import { FreezeritemlistComponent } from './components/freezeritemlist/freezeritemlist.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     DataTablesModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
