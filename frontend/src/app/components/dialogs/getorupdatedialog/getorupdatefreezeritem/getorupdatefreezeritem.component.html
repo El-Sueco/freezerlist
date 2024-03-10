@@ -3,11 +3,32 @@
 		<h5 class="modal-title">Eintrag XY</h5>
 		<button type="button" class="btn-close" (click)="close()"></button>
 	</div>
-	<div class="modal-body">
-		{{ freezerItem.content}}
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-secondary" (click)="close()">abbrechen</button>
-		<button type="button" class="btn btn-primary" (click)="updateFreezerItem()">updaten</button>
-	</div>
+    <form #freezerItemForm="ngForm" (ngSubmit)="submitForm(freezerItemForm)">
+	    <div class="modal-body">
+            <input type="hidden" class="form-control" id="id" name="id" [(ngModel)]="freezerItem.id" required>
+            <div class="form-group">
+              <label for="content">content</label>
+              <input type="text" class="form-control" id="content" name="content" [(ngModel)]="freezerItem.content" required>
+            </div>
+
+            <div class="form-group">
+              <label for="drawer">drawer</label>
+              <select class="form-control" id="drawer" name="drawer" [(ngModel)]="freezerItem.drawer" required>
+                    <option value="" disabled>Lade auswählen</option>
+                    <option value="TOP">Oben</option>
+                    <option value="MIDDLE">Mitte</option>
+                    <option value="BOTTOM">Unten</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+              <label for="freezedate">freezedate</label>
+              <input type="date" class="form-control" id="freezedate" name="freezedate" [(ngModel)]="freezerItem.freezedate" required>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="close()">abbrechen</button>
+            <button type="submit" class="btn btn-primary">updaten</button>
+        </div>
+    </form>
 </div>

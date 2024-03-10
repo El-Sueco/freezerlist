@@ -3,6 +3,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FreezerItem } from '../../../../models/freezeritem';
 import { FreezeritemserviceService } from '../../../../service/freezeritem/freezeritemservice.service';
 import { NumberSymbol } from '@angular/common';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-getorupdatefreezeritem',
@@ -15,14 +16,15 @@ export class GetorupdatefreezeritemComponent implements OnInit {
   
   public freezerItem: FreezerItem = {
     id: -1,
-    content: "asdf",
-    drawer: "asdf",
-    freezedate: "asdf"
+    content: "",
+    drawer: "",
+    freezedate: ""
   };
 
   constructor(
     private modalService: NgbModal,
-    private freezeritemservice: FreezeritemserviceService
+    private freezeritemservice: FreezeritemserviceService,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -30,10 +32,8 @@ export class GetorupdatefreezeritemComponent implements OnInit {
   }
 
   getFreezerItem(id: number) {
-    return this.freezeritemservice.getFreezerItem(this.id)
-    .subscribe({
+    return this.freezeritemservice.getFreezerItem(this.id).subscribe({
       next: (data) => {
-        console.log(data)
         this.freezerItem = data;
       }
     });
@@ -44,7 +44,11 @@ export class GetorupdatefreezeritemComponent implements OnInit {
   }
 
   updateFreezerItem(){
+    this.freezeritemservice.updateFreezerItem(this.id, this.freezerItem).subscribe();
     this.modalService.dismissAll();
-    console.log("update")
+  }
+
+  submitForm(form: any): void {
+    this.updateFreezerItem();
   }
 }

@@ -10,6 +10,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CreatefreezeritemComponent } from './components/dialogs/createdialog/createfreezeritem/createfreezeritem.component';
 import { GetorupdatefreezeritemComponent } from './components/dialogs/getorupdatedialog/getorupdatefreezeritem/getorupdatefreezeritem.component';
 import { DeletefreezeritemComponent } from './components/dialogs/deletedialog/deletefreezeritem/deletefreezeritem.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { DeletefreezeritemComponent } from './components/dialogs/deletedialog/de
     AppRoutingModule,
     DataTablesModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

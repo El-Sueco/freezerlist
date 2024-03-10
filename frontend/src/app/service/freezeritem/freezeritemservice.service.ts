@@ -19,5 +19,14 @@ export class FreezeritemserviceService {
   getFreezerItem(id: number): Observable<any> {
     return this.http.get<FreezerItem>(this.path + "/" + id)
   }
+
+  deleteFreezerItem(id: number): Observable<any> {
+    return this.http.delete<FreezerItem>(this.path + "/" + id)
+  }
+
+  updateFreezerItem(id: number, freezeritem: FreezerItem): Observable<any> {
+    console.log(freezeritem)
+    return this.http.put<FreezerItem>(this.path + "/" + id, freezeritem)
+  }
   
 }
