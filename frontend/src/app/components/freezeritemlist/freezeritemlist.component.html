@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="card m-5 p-3">
+        <div class="card-body">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Content</th>
+                    <th>Freezedate</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let freezeritem of freezeritems">
+                    <td>{{ freezeritem.id }}</td>
+                    <td>{{ freezeritem.content }}</td>
+                    <td>{{ freezeritem.freezedate }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
