@@ -7,11 +7,17 @@ import { DataTablesModule } from "angular-datatables";
 import { FreezeritemlistComponent } from './components/freezeritemlist/freezeritemlist.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CreatefreezeritemComponent } from './components/dialogs/createdialog/createfreezeritem/createfreezeritem.component';
+import { GetorupdatefreezeritemComponent } from './components/dialogs/getorupdatedialog/getorupdatefreezeritem/getorupdatefreezeritem.component';
+import { DeletefreezeritemComponent } from './components/dialogs/deletedialog/deletefreezeritem/deletefreezeritem.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FreezeritemlistComponent
+    FreezeritemlistComponent,
+    CreatefreezeritemComponent,
+    GetorupdatefreezeritemComponent,
+    DeletefreezeritemComponent
   ],
   imports: [
     BrowserModule,

@@ -1,23 +1,30 @@
 import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
 import { FreezeritemserviceService } from '../../service/freezeritem/freezeritemservice.service';
 import { Subject } from 'rxjs';
+import { DeletefreezeritemComponent } from '../dialogs/deletedialog/deletefreezeritem/deletefreezeritem.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GetorupdatefreezeritemComponent } from '../dialogs/getorupdatedialog/getorupdatefreezeritem/getorupdatefreezeritem.component';
+import { CreatefreezeritemComponent } from '../dialogs/createdialog/createfreezeritem/createfreezeritem.component';
 
 @Component({
   selector: 'app-freezeritemlist',
-  templateUrl: './freezeritemlist.component.html',
-  styleUrl: './freezeritemlist.component.css'
+  templateUrl: './freezeritemlist.component.html'
 })
 export class FreezeritemlistComponent implements OnInit, AfterViewInit {
 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
 
-  constructor(private service: FreezeritemserviceService, private renderer: Renderer2) { }
+  constructor(
+    private freezeritemservice: FreezeritemserviceService,
+    private renderer: Renderer2,
+    private modalService: NgbModal
+  ) { }
  
   ngOnInit(): void {
     this.dtOptions = {
       ajax: (dataTablesParameters: any, callback) => {
-        this.service
+        this.freezeritemservice
         .getFreezerItems().subscribe(resp => {
             callback({
               recordsTotal: resp.recordsTotal,
@@ -46,12 +53,17 @@ export class FreezeritemlistComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.renderer.listen('document', 'click', (event) => {
       if (event.target.hasAttribute("data-id")) {
+        const id: number = event.target.getAttribute("data-id");
         switch (event.target.getAttribute("data-operation")){
           case "create":
+            this.modalService.open(CreatefreezeritemComponent);
             break;
           case "getOrUpdate":
+            const modalRef = this.modalService.open(GetorupdatefreezeritemComponent);
+            modalRef.componentInstance.id = id;
             break;
           case "delete":
+            this.modalService.open(DeletefreezeritemComponent);
             break;
           default:
             throw new Error("operation not supported!")
