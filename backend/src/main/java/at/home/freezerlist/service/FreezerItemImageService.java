@@ -1,16 +1,13 @@
 package at.home.freezerlist.service;
 
-import java.io.File;
-import java.io.IOException;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface FreezerItemImageService {
 
-    String addImage(Long id, byte[] image);
+    byte[] createOrUpdateImage(Long id, MultipartFile image);
 
-    String addImage(Long id, String image);
+    void deleteImage(Long id);
 
-    void removeImage(Long id);
-
-    String getImage(Long id);
+    byte[] getImage(Long id);
 }
 

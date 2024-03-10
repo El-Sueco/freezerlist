@@ -1,7 +1,6 @@
 package at.home.freezerlist.service;
 
 import at.home.freezerlist.repository.FreezerItemRepository;
-import at.home.freezerlist.repository.model.DrawerModel;
 import at.home.freezerlist.repository.model.FreezerItemModel;
 import at.home.freezerlist.rest.model.FreezerItem;
 import org.modelmapper.ModelMapper;
@@ -43,8 +42,7 @@ public class FreezerItemServiceImpl implements FreezerItemService {
         FreezerItemModel freezerItemModel = new FreezerItemModel();
         freezerItemModel.setContent(freezerItem.getContent());
         freezerItemModel.setFreezedate(freezerItem.getFreezedate());
-        freezerItemModel.setDrawer(DrawerModel.valueOf(freezerItem.getDrawer().name()));
-        freezerItemModel.setImage(freezerItem.getImage());
+        freezerItemModel.setDrawer(FreezerItemModel.DrawerModel.valueOf(freezerItem.getDrawer().name()));
         freezerItemModel = freezerItemRepository.save(freezerItemModel);
         return modelMapper.map(freezerItemModel, new TypeToken<FreezerItem>() {
         }.getType());
@@ -59,8 +57,7 @@ public class FreezerItemServiceImpl implements FreezerItemService {
         FreezerItemModel freezerItemModel = optionalFreezerItemModel.get();
         freezerItemModel.setContent(freezerItem.getContent());
         freezerItemModel.setFreezedate(freezerItem.getFreezedate());
-        freezerItemModel.setDrawer(DrawerModel.valueOf(freezerItem.getDrawer().name()));
-        freezerItemModel.setImage(freezerItem.getImage());
+        freezerItemModel.setDrawer(FreezerItemModel.DrawerModel.valueOf(freezerItem.getDrawer().name()));
         freezerItemRepository.save(freezerItemModel);
         return modelMapper.map(freezerItemModel, FreezerItem.class);
     }

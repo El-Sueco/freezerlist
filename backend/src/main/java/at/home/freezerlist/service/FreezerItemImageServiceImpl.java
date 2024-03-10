@@ -2,9 +2,9 @@ package at.home.freezerlist.service;
 
 import at.home.freezerlist.repository.FreezerItemRepository;
 import at.home.freezerlist.repository.model.FreezerItemModel;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Base64;
@@ -17,32 +17,25 @@ public class FreezerItemImageServiceImpl implements FreezerItemImageService {
     private FreezerItemRepository freezerItemRepository;
 
     @Override
-    public String addImage(Long id, byte[] image) {
+    public byte[] createOrUpdateImage(Long id, MultipartFile image) {
         Optional<FreezerItemModel> optionalFreezerItemModel = freezerItemRepository.findById(id);
         if (optionalFreezerItemModel.isEmpty()) {
             throw new UnsupportedOperationException("item with id " + id + " not found");
         }
         FreezerItemModel freezerItemModel = optionalFreezerItemModel.get();
-        String encodedFile = Base64.getEncoder().encodeToString(image);
-        freezerItemModel.setImage(encodedFile);
-        freezerItemModel = freezerItemRepository.save(freezerItemModel);
-        return freezerItemModel.getImage();
-    }
-
-    @Override
-    public String addImage(Long id, String image) {
-        Optional<FreezerItemModel> optionalFreezerItemModel = freezerItemRepository.findById(id);
-        if (optionalFreezerItemModel.isEmpty()) {
-            throw new UnsupportedOperationException("item with id " + id + " not found");
+        String encodedFile = null;
+        try {
+            encodedFile = Base64.getEncoder().encodeToString(image.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        FreezerItemModel freezerItemModel = optionalFreezerItemModel.get();;
-        freezerItemModel.setImage(image);
+        freezerItemModel.setImage(encodedFile.getBytes());
         freezerItemModel = freezerItemRepository.save(freezerItemModel);
         return freezerItemModel.getImage();
     }
 
     @Override
-    public void removeImage(Long id) {
+    public void deleteImage(Long id) {
         Optional<FreezerItemModel> optionalFreezerItemModel = freezerItemRepository.findById(id);
         if (optionalFreezerItemModel.isEmpty()) {
             throw new UnsupportedOperationException("item with id " + id + " not found");
@@ -53,12 +46,14 @@ public class FreezerItemImageServiceImpl implements FreezerItemImageService {
     }
 
     @Override
-    public String getImage(Long id) {
+    public byte[] getImage(Long id) {
         Optional<FreezerItemModel> optionalFreezerItemModel = freezerItemRepository.findById(id);
         if (optionalFreezerItemModel.isEmpty()) {
             throw new UnsupportedOperationException("item with id " + id + " not found");
         }
-        return optionalFreezerItemModel.get().getImage();
+        FreezerItemModel freezerItemModel = optionalFreezerItemModel.get();
+        return freezerItemModel.getImage();
     }
+
 }
 

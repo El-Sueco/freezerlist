@@ -1,8 +1,6 @@
 package at.home.freezerlist.rest;
 
-import at.home.freezerlist.rest.model.FreezerItem;
 import at.home.freezerlist.service.FreezerItemImageService;
-import at.home.freezerlist.service.FreezerItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.IOException;
 
 @RestController
 @RequestMapping("api/{id}/image")
@@ -24,20 +19,21 @@ public class FreezerItemImageController {
     private FreezerItemImageService freezerItemImageService;
 
     @RequestMapping(method = RequestMethod.PUT, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String> addImage(@PathVariable("id") Long id, @RequestPart byte[] image) {
-        log.info("getFreezerItemList, getting freezerItemList");
-        return ResponseEntity.ok(freezerItemImageService.addImage(id, image));
+    public ResponseEntity<byte[]> createOrUpdateImage(@PathVariable("id") Long id, @RequestPart MultipartFile image) {
+        log.info("createOrUpdateImage, creating or updating freezerItemList image");
+        return ResponseEntity.ok(freezerItemImageService.createOrUpdateImage(id, image));
     }
 
-    @RequestMapping(path = "/base64", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> addImage(@PathVariable("id") Long id, @RequestPart String image) {
-        log.info("getFreezerItemList, getting freezerItemList");
-        return ResponseEntity.ok(freezerItemImageService.addImage(id, image));
-    }
-
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> getImage(@PathVariable("id") Long id) {
-        log.info("getFreezerItemList, getting freezerItemList");
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getImage(@PathVariable("id") Long id) {
+        log.info("getImage, getting freezerItemList image");
         return ResponseEntity.ok(freezerItemImageService.getImage(id));
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteImage(@PathVariable("id") Long id) {
+        log.info("deleteImage, deleting freezerItemList image");
+        freezerItemImageService.deleteImage(id);
+        return ResponseEntity.ok().build();
     }
 }

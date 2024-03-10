@@ -80,7 +80,7 @@
                             <outputDirectory>${project.build.directory}/classes/resources/</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${project.parent.basedir}/frontend/dist/frakton/</directory>
+                                    <directory>${project.parent.basedir}/frontend/dist/</directory>
                                 </resource>
                             </resources>
                         </configuration>
