@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-createfreezeritem',
@@ -7,14 +7,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class CreatefreezeritemComponent {
 
-  constructor(private modalService: NgbModal) {}
+  constructor(
+    public activeModal: NgbActiveModal
+  ) {}
 
   close(){
-    this.modalService.dismissAll();
+    this.activeModal.close(true);
   }
   
   createFreezerItem(){
-    this.modalService.dismissAll();
-    console.log("create")
+    this.close();
   }
 }

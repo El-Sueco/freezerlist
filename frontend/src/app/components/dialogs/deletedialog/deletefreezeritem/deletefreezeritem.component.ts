@@ -19,8 +19,8 @@ export class DeletefreezeritemComponent implements OnInit {
   };
 
   constructor(
-    private modalService: NgbModal,
-    private freezeritemservice: FreezeritemserviceService
+    private freezeritemservice: FreezeritemserviceService,
+    public activeModal: NgbActiveModal
   ) {}
 
   ngOnInit() {
@@ -36,17 +36,11 @@ export class DeletefreezeritemComponent implements OnInit {
   }
 
   deleteFreezerItem(){
-    this.freezerItem = {
-      id: -1,
-      content: "",
-      drawer: "",
-      freezedate: ""
-    }
     this.freezeritemservice.deleteFreezerItem(this.id).subscribe();
-    this.modalService.dismissAll();
+    this.close();
   }
 
   close(){
-    this.modalService.dismissAll();
+    this.activeModal.close(true);
   }
 }

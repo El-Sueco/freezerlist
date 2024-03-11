@@ -25,7 +25,6 @@ export class FreezeritemserviceService {
   }
 
   updateFreezerItem(id: number, freezeritem: FreezerItem): Observable<any> {
-    console.log(freezeritem)
     return this.http.put<FreezerItem>(this.path + "/" + id, freezeritem)
   }
   

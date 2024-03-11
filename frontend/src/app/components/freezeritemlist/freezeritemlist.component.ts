@@ -22,10 +22,10 @@ export class FreezeritemlistComponent implements OnInit, AfterViewInit {
   ) { }
  
   ngOnInit(): void {
-    this.loadDatatables();
+    this.loadDatatable();
   }
 
-  loadDatatables() {
+  loadDatatable() {
     this.dtOptions = {
       ajax: (dataTablesParameters: any, callback) => {
         this.freezeritemservice
@@ -54,6 +54,10 @@ export class FreezeritemlistComponent implements OnInit, AfterViewInit {
     };
   }
 
+  reloadDatatable() {
+    $('#freezerItemTable').DataTable().ajax.reload();
+  }
+
   ngAfterViewInit(): void {
     this.renderer.listen('document', 'click', (event) => {
       if (event.target.hasAttribute("data-id")) {
@@ -61,15 +65,24 @@ export class FreezeritemlistComponent implements OnInit, AfterViewInit {
         let modalRef: any;
         switch (event.target.getAttribute("data-operation")){
           case "create":
-            this.modalService.open(CreatefreezeritemComponent);
+            modalRef = this.modalService.open(CreatefreezeritemComponent);
+            modalRef.result.then((result: any) => {
+              this.reloadDatatable();
+            });
             break;
           case "getOrUpdate":
             modalRef = this.modalService.open(GetorupdatefreezeritemComponent);
             modalRef.componentInstance.id = id;
+            modalRef.result.then((result: any) => {
+              this.reloadDatatable();
+            });
             break;
           case "delete":
             modalRef = this.modalService.open(DeletefreezeritemComponent);
             modalRef.componentInstance.id = id;
+            modalRef.result.then((result: any) => {
+              this.reloadDatatable();
+            });
             break;
           default:
             throw new Error("operation not supported!")
@@ -77,5 +90,4 @@ export class FreezeritemlistComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
 }

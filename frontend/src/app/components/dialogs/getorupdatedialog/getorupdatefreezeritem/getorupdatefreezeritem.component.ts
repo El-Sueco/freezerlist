@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FreezerItem } from '../../../../models/freezeritem';
 import { FreezeritemserviceService } from '../../../../service/freezeritem/freezeritemservice.service';
@@ -10,9 +10,10 @@ import { FormBuilder } from '@angular/forms';
   templateUrl: './getorupdatefreezeritem.component.html'
 })
 export class GetorupdatefreezeritemComponent implements OnInit {
-	activeModal = inject(NgbActiveModal);
 
   @Input() id!: number;
+  
+  @Output() passEntry: EventEmitter<any> = new EventEmitter();
   
   public freezerItem: FreezerItem = {
     id: -1,
@@ -22,9 +23,8 @@ export class GetorupdatefreezeritemComponent implements OnInit {
   };
 
   constructor(
-    private modalService: NgbModal,
     private freezeritemservice: FreezeritemserviceService,
-    private formBuilder: FormBuilder
+    public activeModal: NgbActiveModal
   ) {}
 
   ngOnInit() {
@@ -40,15 +40,15 @@ export class GetorupdatefreezeritemComponent implements OnInit {
   }
 
   close(){
-    this.modalService.dismissAll();
+    this.activeModal.close(true);
   }
 
   updateFreezerItem(){
     this.freezeritemservice.updateFreezerItem(this.id, this.freezerItem).subscribe();
-    this.modalService.dismissAll();
   }
 
   submitForm(form: any): void {
     this.updateFreezerItem();
+    this.close();
   }
 }
