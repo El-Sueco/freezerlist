@@ -1,6 +1,6 @@
 <div class="modal-content">
 	<div class="modal-header">
-		<h5 class="modal-title">Eintrag XY</h5>
+    <h5 class="modal-title">{{ freezerItem.content }}</h5>
 		<button type="button" class="btn-close" (click)="close()"></button>
 	</div>
     <form #freezerItemForm="ngForm" (ngSubmit)="submitForm(freezerItemForm)">
