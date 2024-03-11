@@ -12,8 +12,10 @@ import { FormBuilder } from '@angular/forms';
 export class GetorupdatefreezeritemComponent implements OnInit {
 
   @Input() id!: number;
-  
   @Output() passEntry: EventEmitter<any> = new EventEmitter();
+  selectedFiles?: FileList;
+  currentFile?: File;
+  preview = '';
   
   public freezerItem: FreezerItem = {
     id: -1,
@@ -50,5 +52,28 @@ export class GetorupdatefreezeritemComponent implements OnInit {
   submitForm(form: any): void {
     this.updateFreezerItem();
     this.close();
+  }
+
+  selectFile(event: any): void {
+    this.preview = '';
+    this.selectedFiles = event.target.files;
+  
+    if (this.selectedFiles) {
+      const file: File | null = this.selectedFiles.item(0);
+  
+      if (file) {
+        this.preview = '';
+        this.currentFile = file;
+  
+        const reader = new FileReader();
+  
+        reader.onload = (e: any) => {
+          console.log(e.target.result);
+          this.preview = e.target.result;
+        };
+  
+        reader.readAsDataURL(this.currentFile);
+      }
+    }
   }
 }
