@@ -3,5 +3,4 @@ export interface FreezerItem {
     content: string;
     drawer: string;
     freezedate: string;
-    image?: string;
 }

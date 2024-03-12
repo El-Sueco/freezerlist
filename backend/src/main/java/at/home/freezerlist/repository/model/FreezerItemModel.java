@@ -4,7 +4,6 @@ package at.home.freezerlist.repository.model;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.*;
-import java.io.File;
 import java.time.LocalDate;
 
 @EntityScan
@@ -28,13 +27,13 @@ public class FreezerItemModel {
 
     @Lob
     @Column(name="image", unique=false, updatable=true, nullable=true)
-    private byte[] image;
+    private String image;
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

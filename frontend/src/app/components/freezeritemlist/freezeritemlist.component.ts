@@ -5,6 +5,7 @@ import { DeletefreezeritemComponent } from '../dialogs/deletedialog/deletefreeze
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GetorupdatefreezeritemComponent } from '../dialogs/getorupdatedialog/getorupdatefreezeritem/getorupdatefreezeritem.component';
 import { CreatefreezeritemComponent } from '../dialogs/createdialog/createfreezeritem/createfreezeritem.component';
+import { FreezerItem } from '../../models/freezeritem';
 
 @Component({
   selector: 'app-freezeritemlist',
@@ -50,7 +51,19 @@ export class FreezeritemlistComponent implements OnInit, AfterViewInit {
       }],
       columnDefs: [
         {targets: 2, orderable: false}
-      ]
+      ]/*,
+      rowCallback: (row: Node, data: any[] | Object, index: number) => {
+        $('td', row).off('click');
+        $('td', row).on('click', (event) => {
+          console.log((event.target))
+          let modalRef: any;
+          modalRef = this.modalService.open(GetorupdatefreezeritemComponent);
+          modalRef.componentInstance.id = (data as FreezerItem).id
+          modalRef.result.then((result: any) => {
+            this.reloadDatatable();
+          });
+        });
+      }*/
     };
   }
 

@@ -1,13 +1,13 @@
 package at.home.freezerlist.service;
 
-import org.springframework.web.multipart.MultipartFile;
+import at.home.freezerlist.rest.model.FreezerItemImage;
 
 public interface FreezerItemImageService {
 
-    byte[] createOrUpdateImage(Long id, MultipartFile image);
+    FreezerItemImage createOrUpdateImage(Long id, FreezerItemImage freezerItemImage);
 
     void deleteImage(Long id);
 
-    byte[] getImage(Long id);
+    FreezerItemImage getImage(Long id);
 }
 

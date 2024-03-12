@@ -4,6 +4,10 @@ import { FreezerItem } from '../../../../models/freezeritem';
 import { FreezeritemserviceService } from '../../../../service/freezeritem/freezeritemservice.service';
 import { NumberSymbol } from '@angular/common';
 import { FormBuilder } from '@angular/forms';
+import { FreezeritemimageserviceService } from '../../../../service/freezeritemimage/freezeritemimageservice.service';
+import { data } from 'jquery';
+import { FreezerItemImage } from '../../../../models/freezeritemimage';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 @Component({
   selector: 'app-getorupdatefreezeritem',
@@ -24,13 +28,21 @@ export class GetorupdatefreezeritemComponent implements OnInit {
     freezedate: ""
   };
 
+  public freezerItemImage: FreezerItemImage = {
+    id: -1,
+    image: ""
+  };
+
   constructor(
     private freezeritemservice: FreezeritemserviceService,
+    private freezeritemimageservice: FreezeritemimageserviceService,
+    private imageCompress: NgxImageCompressService,
     public activeModal: NgbActiveModal
   ) {}
 
   ngOnInit() {
     this.getFreezerItem(this.id);
+    this.getFreezerItemImage(this.id)
   }
 
   getFreezerItem(id: number) {
@@ -41,12 +53,30 @@ export class GetorupdatefreezeritemComponent implements OnInit {
     });
   }
 
+  getFreezerItemImage(id: number) {
+    return this.freezeritemimageservice.getImage(this.id).subscribe({
+      next: (data) => {
+        this.freezerItemImage = data;
+        this.preview = this.freezerItemImage.image;
+      }
+    })
+  }
+
   close(){
     this.activeModal.close(true);
   }
 
   updateFreezerItem(){
-    this.freezeritemservice.updateFreezerItem(this.id, this.freezerItem).subscribe();
+    this.freezeritemservice.updateFreezerItem(this.id, this.freezerItem).subscribe(resp => {
+      this.freezerItem = resp;
+      if(this.preview != this.freezerItemImage.image) {
+        const freezerItemImage: FreezerItemImage = {
+          id: this.id,
+          image: this.preview
+        }
+        this.freezeritemimageservice.createOrUpdateImage(this.id, freezerItemImage).subscribe();  
+      }
+    });
   }
 
   submitForm(form: any): void {
@@ -68,10 +98,16 @@ export class GetorupdatefreezeritemComponent implements OnInit {
         const reader = new FileReader();
   
         reader.onload = (e: any) => {
-          console.log(e.target.result);
-          this.preview = e.target.result;
+          if(file.size > 100000) {
+            this.imageCompress
+            .compressFile(e.target.result, 0, 35, 35)
+            .then(compressedImage => {
+                this.preview = compressedImage;
+            });
+          } else {
+            this.preview = e.target.result
+          }
         };
-  
         reader.readAsDataURL(this.currentFile);
       }
     }

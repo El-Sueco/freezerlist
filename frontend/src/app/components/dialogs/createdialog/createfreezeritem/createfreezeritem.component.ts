@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FreezeritemserviceService } from '../../../../service/freezeritem/freezeritemservice.service';
 import { FreezerItem } from '../../../../models/freezeritem';
+import { NgxImageCompressService } from 'ngx-image-compress';
+import { FreezerItemImage } from '../../../../models/freezeritemimage';
+import { FreezeritemimageserviceService } from '../../../../service/freezeritemimage/freezeritemimageservice.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-createfreezeritem',
@@ -13,6 +17,7 @@ export class CreatefreezeritemComponent {
   preview = '';
 
   public freezerItem: FreezerItem = {
+    id: -1,
     content: "",
     drawer: "",
     freezedate: (new Date()).toISOString().substring(0,10)
@@ -20,6 +25,8 @@ export class CreatefreezeritemComponent {
 
   constructor(
     public freezeritemservice: FreezeritemserviceService,
+    public freezeritemimageservice: FreezeritemimageserviceService,
+    private imageCompress: NgxImageCompressService,
     public activeModal: NgbActiveModal
   ) {}
 
@@ -28,8 +35,15 @@ export class CreatefreezeritemComponent {
   }
 
   
-  createFreezerItem(){
-    this.freezeritemservice.createFreezerItem(this.freezerItem).subscribe();
+  async createFreezerItem(){
+    this.freezeritemservice.createFreezerItem(this.freezerItem).subscribe(resp => {
+      this.freezerItem = resp;
+      const freezerItemImage: FreezerItemImage = {
+        id: resp.id,
+        image: this.preview
+      }
+      this.freezeritemimageservice.createOrUpdateImage(resp.id, freezerItemImage).subscribe();
+    });
   }
 
   submitForm(form: any): void {
@@ -51,10 +65,16 @@ export class CreatefreezeritemComponent {
         const reader = new FileReader();
   
         reader.onload = (e: any) => {
-          console.log(e.target.result);
-          this.preview = e.target.result;
+          if(file.size > 100000) {
+            this.imageCompress
+            .compressFile(e.target.result, 0, 35, 35)
+            .then(compressedImage => {
+                this.preview = compressedImage;
+            });
+          } else {
+            this.preview = e.target.result
+          }
         };
-  
         reader.readAsDataURL(this.currentFile);
       }
     }
