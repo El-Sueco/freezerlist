@@ -22,7 +22,7 @@ public class FreezerItemModel {
     @Column(name="drawer", unique=false, updatable=true, nullable=false)
     private DrawerModel drawer;
 
-    @Column(name="username", unique=false, updatable=true, nullable=false)
+    @Column(name = "freezedate", unique = false, updatable = true, nullable = false)
     private LocalDate freezedate;
 
     @Lob
