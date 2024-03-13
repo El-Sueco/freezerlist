@@ -14,11 +14,6 @@ spring:
   h2:
     console:
       enabled: true # to enable h2 console
-  thymeleaf:
-    enabled: 'true '
-    prefix: classpath:/templates/
-    cache: 'false'
-    suffix: .html
   application:
     name: Gefrierschrank Manager
 
