@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("api/freezerItems")
 public class FreezerItemController {
 
     private static final Logger log = LoggerFactory.getLogger(FreezerItemController.class);

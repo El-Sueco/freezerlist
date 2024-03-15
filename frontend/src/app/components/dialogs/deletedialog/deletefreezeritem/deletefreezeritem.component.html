@@ -4,7 +4,7 @@
 		<button type="button" class="btn-close" (click)="close()"></button>
 	</div>
 	<div class="modal-body">
-    Willst du wirklich "{{ freezerItem.content }}" in Lade "{{ freezerItem.drawer }}" löschen?
+		Willst du wirklich "{{ freezerItem.content }}" in "{{ drawer.physicalOrder }}. Lade" löschen?
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-danger" (click)="deleteFreezerItem()">löschen</button>

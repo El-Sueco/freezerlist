@@ -8,6 +8,7 @@ import { FreezeritemimageserviceService } from '../../../../service/freezeritemi
 import { data } from 'jquery';
 import { FreezerItemImage } from '../../../../models/freezeritemimage';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { DrawerserviceService } from '../../../../service/drawer/drawerservice.service';
 
 @Component({
   selector: 'app-getorupdatefreezeritem',
@@ -24,7 +25,7 @@ export class GetorupdatefreezeritemComponent implements OnInit {
   public freezerItem: FreezerItem = {
     id: -1,
     content: "",
-    drawer: "",
+    drawerId: -1,
     freezedate: ""
   };
 
@@ -32,10 +33,13 @@ export class GetorupdatefreezeritemComponent implements OnInit {
     id: -1,
     image: ""
   };
+  
+  public drawers: any;
 
   constructor(
     private freezeritemservice: FreezeritemserviceService,
     private freezeritemimageservice: FreezeritemimageserviceService,
+    public drawerservice: DrawerserviceService,
     private imageCompress: NgxImageCompressService,
     public activeModal: NgbActiveModal
   ) {}
@@ -43,6 +47,9 @@ export class GetorupdatefreezeritemComponent implements OnInit {
   ngOnInit() {
     this.getFreezerItem(this.id);
     this.getFreezerItemImage(this.id)
+    this.drawerservice.getDrawers().subscribe(resp => {
+      this.drawers = resp
+    })
   }
 
   getFreezerItem(id: number) {

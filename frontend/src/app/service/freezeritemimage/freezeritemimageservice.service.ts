@@ -7,8 +7,8 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class FreezeritemimageserviceService {
-  private path = '/api';
-  private pathSub = '/image';
+  private path = '/api/freezerItems';
+  private pathSub = '/images';
 
   constructor(private http: HttpClient) {}
 

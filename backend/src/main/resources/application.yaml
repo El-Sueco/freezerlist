@@ -14,6 +14,6 @@ spring:
   h2:
     console:
       enabled: true # to enable h2 console
-  application:
-    name: Gefrierschrank Manager
-
+app:
+  config:
+    drawerAmount: 3

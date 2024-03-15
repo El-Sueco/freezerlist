@@ -3,6 +3,7 @@ import { NgbActiveModal, NgbModal, } from '@ng-bootstrap/ng-bootstrap';
 import { FreezerItem } from '../../../../models/freezeritem';
 import { FreezeritemserviceService } from '../../../../service/freezeritem/freezeritemservice.service';
 import { Drawer } from '../../../../models/drawer';
+import { DrawerserviceService } from '../../../../service/drawer/drawerservice.service';
 
 @Component({
   selector: 'app-deletefreezeritem',
@@ -15,12 +16,18 @@ export class DeletefreezeritemComponent implements OnInit {
   public freezerItem: FreezerItem = {
     id: -1,
     content: "",
-    drawer: "",
+    drawerId: -1,
     freezedate: ""
+  };
+
+  public drawer: Drawer = {
+    id: -1,
+    physicalOrder: -1
   };
 
   constructor(
     private freezeritemservice: FreezeritemserviceService,
+    private drawerservice: DrawerserviceService,
     public activeModal: NgbActiveModal
   ) {}
 
@@ -32,7 +39,9 @@ export class DeletefreezeritemComponent implements OnInit {
     return this.freezeritemservice.getFreezerItem(this.id).subscribe({
       next: (data) => {
         this.freezerItem = data;
-        this.freezerItem.drawer = Drawer[data.drawer as keyof typeof Drawer]
+        this.drawerservice.getDrawer(data.drawerId).subscribe(resp => {
+          this.drawer = resp;
+        });
       }
     });
   }

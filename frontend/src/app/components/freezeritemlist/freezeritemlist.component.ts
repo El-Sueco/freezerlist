@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GetorupdatefreezeritemComponent } from '../dialogs/getorupdatedialog/getorupdatefreezeritem/getorupdatefreezeritem.component';
 import { CreatefreezeritemComponent } from '../dialogs/createdialog/createfreezeritem/createfreezeritem.component';
 import { FreezerItem } from '../../models/freezeritem';
+import { DrawerserviceService } from '../../service/drawer/drawerservice.service';
 
 @Component({
   selector: 'app-freezeritemlist',
@@ -16,17 +17,24 @@ export class FreezeritemlistComponent implements OnInit, AfterContentChecked  {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
 
+  public drawers: any;
+
   constructor(
     private freezeritemservice: FreezeritemserviceService,
+    private drawerservice: DrawerserviceService,
     private renderer: Renderer2,
     private modalService: NgbModal
   ) { }
  
   ngOnInit(): void {
     this.loadDatatable();
+    this.drawerservice.getDrawers().subscribe(resp => {
+      this.drawers = resp;
+    });
   }
 
   ngAfterContentChecked(): void {
+    console.log($(".drawerId"))
     $('.addButton').off('click'); // FIXME this is indeed a workaround
     $('.addButton').on("click", (event) => {
       this.addButtonClick();
@@ -51,6 +59,11 @@ export class FreezeritemlistComponent implements OnInit, AfterContentChecked  {
       }, {
         title: 'Freezedate',
         data: 'freezedate',
+      }, {
+        title: 'Drawer',
+        render: function(data, type, full, meta) {
+          return '<span class="drawerId">' + full.drawerId + '</span>'
+        }
       }, {
         title: '<button type="button" class="addButton btn btn-success"><i class="bi bi-plus"></i></button>',
         render: function (data, type, full, meta) { return '<button type="button" class="getOrUpdateButton btn btn-primary"' +

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("api/{id}/image")
+@RequestMapping("api/freezerItems/{id}/images")
 public class FreezerItemImageController {
 
     private static final Logger log = LoggerFactory.getLogger(FreezerItemImageController.class);

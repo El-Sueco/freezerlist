@@ -1,6 +1,6 @@
 export interface FreezerItem {
     id?: number;
     content: string;
-    drawer: string;
+    drawerId: number;
     freezedate: string;
 }

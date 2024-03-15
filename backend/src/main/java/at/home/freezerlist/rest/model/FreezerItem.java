@@ -7,16 +7,16 @@ public class FreezerItem {
 
     private String content;
 
-    private Drawer drawer;
+    private long drawerId;
 
     private LocalDate freezedate;
 
-    public Drawer getDrawer() {
-        return drawer;
+    public long getDrawerId() {
+        return drawerId;
     }
 
-    public void setDrawer(Drawer drawer) {
-        this.drawer = drawer;
+    public void setDrawerId(long drawer) {
+        this.drawerId = drawer;
     }
 
     public Long getId() {
@@ -45,14 +45,6 @@ public class FreezerItem {
 
     @Override
     public String toString() {
-        return "{\"id\": " + id + "\", content\": " + content + ", \"date\": " + freezedate + "}";
+        return "{\"id\": " + id + "\", content\": " + content + ", \"freezedate\": " + freezedate + ", \"drawer\": " + drawerId + "}";
     }
-
-    public enum Drawer {
-        TOP("Oben"), MIDDLE("Mitte"), BOTTOM("Unten");
-
-        Drawer(String name) {
-        }
-    }
-
 }

@@ -8,7 +8,7 @@ import { data } from 'jquery';
   providedIn: 'root'
 })
 export class FreezeritemserviceService {
-  private path = '/api';
+  private path = '/api/freezerItems';
 
   constructor(private http: HttpClient) {}
   

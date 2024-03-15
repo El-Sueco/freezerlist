@@ -12,22 +12,23 @@ import java.time.LocalDate;
 public class FreezerItemModel {
 
     @Id
-    @Column(name="ID", unique=true, updatable=false, nullable=false)
-    @GeneratedValue
+    @Column(name = "ID", unique = true, updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
-    @Column(name="content", unique=false, updatable=true, nullable=false)
+    @Column(name = "content", unique = false, updatable = true, nullable = false)
     private String content;
-
-    @Column(name="drawer", unique=false, updatable=true, nullable=false)
-    private DrawerModel drawer;
 
     @Column(name = "freezedate", unique = false, updatable = true, nullable = false)
     private LocalDate freezedate;
 
     @Lob
-    @Column(name="image", unique=false, updatable=true, nullable=true)
+    @Column(name = "image", unique = false, updatable = true, nullable = true)
     private String image;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "drawer_id", referencedColumnName = "id", unique = false, updatable = true, nullable = false)
+    private DrawerModel drawer;
 
     public String getImage() {
         return image;
@@ -53,10 +54,6 @@ public class FreezerItemModel {
         return id;
     }
 
-    public void setUuid(Long id) {
-        this.id = id;
-    }
-
     public String getContent() {
         return content;
     }
@@ -76,13 +73,6 @@ public class FreezerItemModel {
     @Override
     public String toString() {
         return "{\"id\": " + id + "\", content\": " + content + ", \"date\": " + freezedate + "}";
-    }
-
-    public enum DrawerModel {
-        TOP("Oben"), MIDDLE("Mitte"), BOTTOM("Unten");
-
-        DrawerModel(String name) {
-        }
     }
 
 }

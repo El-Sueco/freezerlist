@@ -1,5 +1,4 @@
-export enum Drawer {
-    TOP = "Oben",
-    MIDDLE = "Mitte",
-    BOTTOM = "Unten"
+export interface Drawer {
+    id?: number;
+    physicalOrder: number;
 }

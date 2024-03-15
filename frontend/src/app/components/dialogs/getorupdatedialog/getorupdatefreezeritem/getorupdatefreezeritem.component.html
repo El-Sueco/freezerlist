@@ -12,12 +12,10 @@
             </div>
 
             <div class="form-group">
-              <label for="drawer">drawer</label>
-              <select class="form-control" id="drawer" name="drawer" [(ngModel)]="freezerItem.drawer" required>
+              <label for="drawerId">drawer</label>
+              <select [(ngModel)]="freezerItem.drawerId" class="form-control" id="drawerId" name="drawerId" required>
                     <option value="" disabled>Lade auswählen</option>
-                    <option value="TOP">Oben</option>
-                    <option value="MIDDLE">Mitte</option>
-                    <option value="BOTTOM">Unten</option>
+                <option *ngFor="let drawer of drawers" [value]="drawer.id">{{ drawer.physicalOrder }}. Lade</option>
                 </select>
             </div>
 
