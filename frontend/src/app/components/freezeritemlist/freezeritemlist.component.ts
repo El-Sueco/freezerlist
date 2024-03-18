@@ -58,12 +58,7 @@ export class FreezeritemlistComponent implements OnInit, AfterContentChecked  {
         data: 'content'
       }, {
         title: 'Freezedate',
-        data: 'freezedate',
-      }, {
-        title: 'Drawer',
-        render: function(data, type, full, meta) {
-          return '<span class="drawerId">' + full.drawerId + '</span>'
-        }
+        data: 'freezedate'
       }, {
         title: '<button type="button" class="addButton btn btn-success"><i class="bi bi-plus"></i></button>',
         render: function (data, type, full, meta) { return '<button type="button" class="getOrUpdateButton btn btn-primary"' +
