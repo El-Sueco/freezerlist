@@ -1,110 +1,48 @@
-import { AfterContentChecked, AfterContentInit, AfterRenderPhase, AfterRenderRef, AfterViewChecked, AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
-import { FreezeritemserviceService } from '../../service/freezeritem/freezeritemservice.service';
-import { Subject } from 'rxjs';
-import { DeletefreezeritemComponent } from '../dialogs/deletedialog/deletefreezeritem/deletefreezeritem.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { GetorupdatefreezeritemComponent } from '../dialogs/getorupdatedialog/getorupdatefreezeritem/getorupdatefreezeritem.component';
-import { CreatefreezeritemComponent } from '../dialogs/createdialog/createfreezeritem/createfreezeritem.component';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { DrawerService } from '../../service/drawer/drawer.service';
 import { FreezerItem } from '../../models/freezeritem';
-import { DrawerserviceService } from '../../service/drawer/drawerservice.service';
+import { MatTableDataSource } from '@Angular/material/table'
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { FreezerItemDataSource } from '../../service/datasource/freezeritem/freezeritemdatasource.service';
+import { FreezerItemService } from '../../service/freezeritem/freezeritem.service';
+import { Drawer } from '../../models/drawer';
+import { data } from 'jquery';
 
 @Component({
   selector: 'app-freezeritemlist',
-  templateUrl: './freezeritemlist.component.html'
+  templateUrl: './freezeritemlist.component.html',
+  styleUrls: ['./freezeritemlist.component.scss']
 })
-export class FreezeritemlistComponent implements OnInit, AfterContentChecked  {
+export class FreezeritemlistComponent implements OnInit, AfterViewInit  {
 
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject<any>();
+  displayedColumns: string[] = ['content', 'freezedate', 'drawerId', 'actions'];
+  dataSource!: FreezerItemDataSource;
+  drawers?: Drawer[] = [];
 
-  public drawers: any;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
-    private freezeritemservice: FreezeritemserviceService,
-    private drawerservice: DrawerserviceService,
-    private renderer: Renderer2,
-    private modalService: NgbModal
+    private freezerItemService: FreezerItemService,
+    private drawerService: DrawerService,
+    private freezerItemDataSourceService: FreezerItemDataSource
   ) { }
  
   ngOnInit(): void {
-    this.loadDatatable();
-    this.drawerservice.getDrawers().subscribe(resp => {
-      this.drawers = resp;
-    });
-  }
+    this.dataSource = new FreezerItemDataSource(this.freezerItemService);
+    this.dataSource.loadFreezerItems();
 
-  ngAfterContentChecked(): void {
-    console.log($(".drawerId"))
-    $('.addButton').off('click'); // FIXME this is indeed a workaround
-    $('.addButton').on("click", (event) => {
-      this.addButtonClick();
-    })
-  }
-
-  loadDatatable() {
-    this.dtOptions = {
-      ajax: (dataTablesParameters: any, callback) => {
-        this.freezeritemservice
-        .getFreezerItems().subscribe(resp => {
-            callback({
-              recordsTotal: resp.recordsTotal,
-              recordsFiltered: resp.recordsFiltered,
-              data: resp
-            });
-          });
-      },
-      columns: [{
-        title: 'Content',
-        data: 'content'
-      }, {
-        title: 'Freezedate',
-        data: 'freezedate'
-      }, {
-        title: '<button type="button" class="addButton btn btn-success"><i class="bi bi-plus"></i></button>',
-        render: function (data, type, full, meta) { return '<button type="button" class="getOrUpdateButton btn btn-primary"' +
-          'data-id="' + full.id + '"><i class="bi bi-pen"></i></button> <button type="button" class="deleteButton btn btn-danger" data-id="' + full.id + '" data-operation="delete"><i class="bi bi-trash"></i></button>'}
-      }],
-      columnDefs: [
-        {targets: 2, width: "90px", orderable: false}
-      ],
-      rowCallback: (row: Node, data: any[] | Object, index: number) => {
-        $('.getOrUpdateButton', row).off('click');
-        $('.getOrUpdateButton', row).on('click', (event) => {
-          this.getOrUpdateButtonClick(event);
-        });
-        $('.deleteButton', row).off('click');
-        $('.deleteButton', row).on('click', (event) => {
-          this.deleteButtonClick(event);
-        });
+    this.drawerService.getDrawers().subscribe({
+      next: data => {
+        this.drawers = data;
+        console.log(this.drawers?.find(drawer => drawer.id == 2))
       }
-    };
-  }
-
-  reloadDatatable() {
-    $('#freezerItemTable').DataTable().ajax.reload();
-  }
-
-  addButtonClick() {
-    let modalRef: any;
-    modalRef = this.modalService.open(CreatefreezeritemComponent);
-    modalRef.result.then((result: any) => {
-      this.reloadDatatable();
     });
   }
-
-  getOrUpdateButtonClick(event: any) {
-    let modalRef: any = this.modalService.open(GetorupdatefreezeritemComponent);
-    modalRef.componentInstance.id = event.currentTarget.dataset["id"];
-    modalRef.result.then((result: any) => {
-      this.reloadDatatable();
-    });
-  }
-
-  deleteButtonClick(event: any) {
-    let modalRef: any = this.modalService.open(DeletefreezeritemComponent);
-    modalRef.componentInstance.id = event.currentTarget.dataset["id"];
-    modalRef.result.then((result: any) => {
-      this.reloadDatatable();
-    });
+  
+  ngAfterViewInit() {
+    //this.dataSource.sort = this.sort;
+    //this.dataSource.paginator = this.paginator;
   }
 }

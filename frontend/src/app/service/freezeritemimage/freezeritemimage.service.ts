@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class FreezeritemimageserviceService {
+export class FreezerItemImageService {
   private path = '/api/freezerItems';
   private pathSub = '/images';
 

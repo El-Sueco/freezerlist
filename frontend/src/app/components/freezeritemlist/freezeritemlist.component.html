@@ -1,2 +1,48 @@
-<table #freezerItemTable [dtOptions]="dtOptions" class="table table-striped" datatable id="freezerItemTable">
-</table>
+<div class="table-container mat-elevation-z8">
+  <table [dataSource]="dataSource" mat-table matSort>
+
+    <ng-container matColumnDef="content">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header> Inhalt</th>
+      <td *matCellDef="let freezeritem" class='m-card-title' data-label='Inhalt' mat-cell test><a
+        href='javascript:void'>{{freezeritem.content}}</a></td>
+    </ng-container>
+
+    <ng-container matColumnDef="freezedate">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header> Datum</th>
+      <td *matCellDef="let freezeritem" class='m-card-sub-title has_label_on_mobile' data-label='Eingefroren am'
+          mat-cell> {{freezeritem.freezedate}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="drawerId">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header> Lade</th>
+      <td *matCellDef="let freezeritem" class='has_label_on_mobile' data-label='Lade' mat-cell>
+        {{freezeritem.drawerId}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th *matHeaderCellDef mat-header-cell></th>
+      <td *matCellDef="let freezeritem" mat-cell>
+        <button [matMenuTriggerFor]="menu" mat-icon-button>
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+</div>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item>
+    <mat-icon>edit</mat-icon>
+    <span>Eintrag bearbeiten</span>
+  </button>
+  <button disabled mat-menu-item>
+    <mat-icon>delete</mat-icon>
+    <span>Eintrag löschen</span>
+  </button>
+</mat-menu>
