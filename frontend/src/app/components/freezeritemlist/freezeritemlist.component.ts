@@ -7,6 +7,7 @@ import { FreezerItemService } from '../../service/freezeritem/freezeritem.servic
 import { Drawer } from '../../models/drawer';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateDialogComponent } from '../dialogs/create/create.dialog.component';
+import { FreezerItem } from '../../models/freezeritem';
 
 @Component({
   selector: 'app-freezeritemlist',
@@ -36,7 +37,7 @@ export class FreezeritemlistComponent implements OnInit, AfterViewInit  {
     this.drawerService.getDrawers().subscribe({
       next: data => {
         this.drawers = data;
-        console.log(this.drawers?.find(drawer => drawer.id == 2))
+        //console.log(this.drawers?.find(drawer => drawer.id == 2)) TODO mapping from id to physicalOrder
       }
     });
   }
@@ -47,8 +48,16 @@ export class FreezeritemlistComponent implements OnInit, AfterViewInit  {
   }
 
   async createFreezerItem() {
+    let freezerItem: FreezerItem = {
+      id: -1,
+      content: "test",
+      freezedate: new Date().toISOString(),
+      drawerId: -1
+    }
+
+    console.log(freezerItem)
     const dialogRef = this.dialog.open(CreateDialogComponent, {
-      width: '250px'
+      data: freezerItem
     });
 
     dialogRef.afterClosed().subscribe(result => {
