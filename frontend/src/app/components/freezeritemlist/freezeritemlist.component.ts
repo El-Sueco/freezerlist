@@ -26,18 +26,18 @@ export class FreezeritemlistComponent implements OnInit, AfterViewInit  {
   constructor(
     public dialog: MatDialog,
     private freezerItemService: FreezerItemService,
-    private drawerService: DrawerService,
-    private freezerItemDataSourceService: FreezerItemDataSource
+    private drawerService: DrawerService
   ) { }
  
   ngOnInit(): void {
     this.dataSource = new FreezerItemDataSource(this.freezerItemService);
-    this.dataSource.loadFreezerItems();
+    this.loadFreezerItems();
 
     this.drawerService.getDrawers().subscribe({
       next: data => {
         this.drawers = data;
-        //console.log(this.drawers?.find(drawer => drawer.id == 2)) TODO mapping from id to physicalOrder
+        // TODO mapping from id to physicalOrder
+        //console.log(this.drawers?.find(drawer => drawer.id == 2)) 
       }
     });
   }
@@ -47,21 +47,25 @@ export class FreezeritemlistComponent implements OnInit, AfterViewInit  {
     //this.dataSource.paginator = this.paginator;
   }
 
+  loadFreezerItems() {
+    this.dataSource.loadFreezerItems();
+  }
+
   async createFreezerItem() {
     let freezerItem: FreezerItem = {
       id: -1,
-      content: "test",
+      content: "",
       freezedate: new Date().toISOString(),
       drawerId: -1
     }
 
-    console.log(freezerItem)
     const dialogRef = this.dialog.open(CreateDialogComponent, {
+      width: '500px',
       data: freezerItem
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      this.loadFreezerItems();
     });
   }
 }

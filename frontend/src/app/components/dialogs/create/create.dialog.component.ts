@@ -5,6 +5,9 @@ import { DrawerService } from '../../../service/drawer/drawer.service';
 import { Drawer } from '../../../models/drawer';
 import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { FreezerItemService } from '../../../service/freezeritem/freezeritem.service';
+import { FreezerItemImage } from '../../../models/freezeritemimage';
+import { FreezerItemImageService } from '../../../service/freezeritemimage/freezeritemimage.service';
 
 @Component({
   selector: 'app-create.dialog',
@@ -23,6 +26,8 @@ export class CreateDialogComponent implements OnInit{
     private dialogRef: MatDialogRef<CreateDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public freezerItem: FreezerItem,
     private drawerService: DrawerService,
+    private freezerItemService: FreezerItemService,
+    private freezerItemImageService: FreezerItemImageService,
     private imageCompress: NgxImageCompressService
   ) { }
 
@@ -34,9 +39,20 @@ export class CreateDialogComponent implements OnInit{
     });
   }
 
+  createFreezerItem(form: any){
+    this.freezerItemService.createFreezerItem(this.freezerItem).subscribe(resp => {
+      this.freezerItem = resp;
+      const freezerItemImage: FreezerItemImage = {
+        id: resp.id,
+        image: this.preview
+      }
+      this.freezerItemImageService.createOrUpdateImage(resp.id, freezerItemImage).subscribe();
+    });
+  }
+
   onSubmit(form: any): void {
-    console.log(form)
-    this.dialogRef.close(this.freezerItem);
+    this.createFreezerItem(form);
+    this.dialogRef.close(form);
   }
   
   close(): void {
