@@ -69,20 +69,9 @@ export class FreezeritemlistComponent implements OnInit, AfterViewInit  {
   }
 
   editFreezerItem(id: number) {
-    let freezerItem: FreezerItem = {
-      id: -1,
-      content: "",
-      freezedate: new Date().toISOString(),
-      drawerId: -1
-    }
-    this.freezerItemService.getFreezerItem(id).subscribe({
-      next: (data) => {
-        freezerItem = data;
-      }
-    });
     const dialogRef = this.dialog.open(EditDialogComponent, {
       width: '500px',
-      data: {id, freezerItem}
+      data: {id}
     });
     dialogRef.afterClosed().subscribe(result => {
       this.loadFreezerItems();

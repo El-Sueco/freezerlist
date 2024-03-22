@@ -1,7 +1,7 @@
-<h3 mat-dialog-title>Eintrag hinzufügen</h3>
+<h3 mat-dialog-title>{{ freezerItem.content }} bearbeiten</h3>
 
 <form #freezerItemForm="ngForm" (ngSubmit)="onSubmit(freezerItemForm)" mat-dialog-content>
-  <input [(ngModel)]="id" class="form-control" matInput name="content" placeholder="Content"
+  <input [(ngModel)]="id" class="form-control" hidden matInput name="id" placeholder="id"
          required>
   <div class="form">
     <mat-form-field>

@@ -21,11 +21,22 @@ export class EditDialogComponent implements OnInit{
   currentFile?: File;
   preview = '';
   drawers?: Drawer[] = [];
+  freezerItem: FreezerItem = {
+    id: -1,
+    content: "",
+    freezedate: "",
+    drawerId: -1
+  };
+  freezerItemImage: FreezerItemImage = {
+    id: -1,
+    image: ""
+  };
+  public id!: number;
+  
   
   constructor(
     private dialogRef: MatDialogRef<EditDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public id: number,
-    @Inject(MAT_DIALOG_DATA) public freezerItem: FreezerItem,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private drawerService: DrawerService,
     private freezerItemService: FreezerItemService,
     private freezerItemImageService: FreezerItemImageService,
@@ -38,11 +49,30 @@ export class EditDialogComponent implements OnInit{
         this.drawers = data;
       }
     });
+    this.id = this.data['id']
+    this.getFreezerItem(this.id);
+    this.getFreezerItemImage(this.id)
+    
+  }
+
+  getFreezerItem(id: number) {
+    return this.freezerItemService.getFreezerItem(this.id).subscribe({
+      next: (data) => {
+        this.freezerItem = data;
+      }
+    });
+  }
+
+  getFreezerItemImage(id: number) {
+    return this.freezerItemImageService.getImage(this.id).subscribe({
+      next: (data) => {
+        this.freezerItemImage = data;
+        this.preview = this.freezerItemImage.image;
+      }
+    })
   }
 
   editFreezerItem(){
-    console.log(this.id)
-    console.log(this.freezerItem)
     this.freezerItemService.updateFreezerItem(this.id, this.freezerItem).subscribe(resp => {
       this.freezerItem = resp;
       const freezerItemImage: FreezerItemImage = {
