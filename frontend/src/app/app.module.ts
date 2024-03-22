@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { FreezeritemlistComponent } from './components/freezeritemlist/freezeritemlist.component';
 import { CreateDialogComponent } from './components/dialogs/create/create.dialog.component';
+import { EditDialogComponent } from './components/dialogs/edit/edit.dialog.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,7 +31,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
   declarations: [
     AppComponent,
     FreezeritemlistComponent,
-    CreateDialogComponent
+    CreateDialogComponent,
+    EditDialogComponent
   ],
   imports: [
     BrowserModule,

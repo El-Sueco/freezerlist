@@ -10,12 +10,12 @@ import { FreezerItemImage } from '../../../models/freezeritemimage';
 import { FreezerItemImageService } from '../../../service/freezeritemimage/freezeritemimage.service';
 
 @Component({
-  selector: 'app-create.dialog',
-  templateUrl: '../../dialogs/create/create.dialog.component.html',
+  selector: 'app-edit.dialog',
+  templateUrl: '../../dialogs/edit/edit.dialog.component.html',
   providers: [{provide: MAT_DATE_LOCALE, useValue: 'de-DE'}, provideNativeDateAdapter()],
 })
 
-export class CreateDialogComponent implements OnInit{
+export class EditDialogComponent implements OnInit{
   
   selectedFiles?: FileList;
   currentFile?: File;
@@ -23,7 +23,8 @@ export class CreateDialogComponent implements OnInit{
   drawers?: Drawer[] = [];
   
   constructor(
-    private dialogRef: MatDialogRef<CreateDialogComponent>,
+    private dialogRef: MatDialogRef<EditDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public id: number,
     @Inject(MAT_DIALOG_DATA) public freezerItem: FreezerItem,
     private drawerService: DrawerService,
     private freezerItemService: FreezerItemService,
@@ -39,8 +40,10 @@ export class CreateDialogComponent implements OnInit{
     });
   }
 
-  createFreezerItem(){
-    this.freezerItemService.createFreezerItem(this.freezerItem).subscribe(resp => {
+  editFreezerItem(){
+    console.log(this.id)
+    console.log(this.freezerItem)
+    this.freezerItemService.updateFreezerItem(this.id, this.freezerItem).subscribe(resp => {
       this.freezerItem = resp;
       const freezerItemImage: FreezerItemImage = {
         id: resp.id,
@@ -51,7 +54,7 @@ export class CreateDialogComponent implements OnInit{
   }
 
   onSubmit(form: any): void {
-    this.createFreezerItem();
+    this.editFreezerItem();
     this.dialogRef.close(form);
   }
   

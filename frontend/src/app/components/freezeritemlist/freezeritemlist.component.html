@@ -34,7 +34,7 @@
       <th *matHeaderCellDef mat-header-cell>
       </th>
       <td *matCellDef="let freezeritem" mat-cell>
-        <button [matMenuTriggerFor]="menu" mat-icon-button>
+        <button [matMenuTriggerData]="{freezeritem: freezeritem}" [matMenuTriggerFor]="menu" mat-icon-button>
           <mat-icon>more_vert</mat-icon>
         </button>
       </td>
@@ -47,12 +47,14 @@
 </div>
 
 <mat-menu #menu="matMenu">
-  <button mat-menu-item>
-    <mat-icon>edit</mat-icon>
-    <span>Eintrag bearbeiten</span>
-  </button>
-  <button mat-menu-item>
-    <mat-icon>delete</mat-icon>
-    <span>Eintrag löschen</span>
-  </button>
+  <ng-template let-freezeritem="freezeritem" matMenuContent>
+    <button (click)="editFreezerItem(freezeritem.id)" mat-menu-item>
+      <mat-icon>edit</mat-icon>
+      <span>Eintrag bearbeiten</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>delete</mat-icon>
+      <span>Eintrag löschen</span>
+    </button>
+  </ng-template>
 </mat-menu>

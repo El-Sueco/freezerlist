@@ -8,6 +8,7 @@ import { Drawer } from '../../models/drawer';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateDialogComponent } from '../dialogs/create/create.dialog.component';
 import { FreezerItem } from '../../models/freezeritem';
+import { EditDialogComponent } from '../dialogs/edit/edit.dialog.component';
 
 @Component({
   selector: 'app-freezeritemlist',
@@ -51,19 +52,38 @@ export class FreezeritemlistComponent implements OnInit, AfterViewInit  {
     this.dataSource.loadFreezerItems();
   }
 
-  async createFreezerItem() {
+  createFreezerItem() {
     let freezerItem: FreezerItem = {
       id: -1,
       content: "",
       freezedate: new Date().toISOString(),
       drawerId: -1
     }
-
     const dialogRef = this.dialog.open(CreateDialogComponent, {
       width: '500px',
       data: freezerItem
     });
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadFreezerItems();
+    });
+  }
 
+  editFreezerItem(id: number) {
+    let freezerItem: FreezerItem = {
+      id: -1,
+      content: "",
+      freezedate: new Date().toISOString(),
+      drawerId: -1
+    }
+    this.freezerItemService.getFreezerItem(id).subscribe({
+      next: (data) => {
+        freezerItem = data;
+      }
+    });
+    const dialogRef = this.dialog.open(EditDialogComponent, {
+      width: '500px',
+      data: {id, freezerItem}
+    });
     dialogRef.afterClosed().subscribe(result => {
       this.loadFreezerItems();
     });
