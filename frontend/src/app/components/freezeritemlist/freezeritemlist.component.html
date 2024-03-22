@@ -1,10 +1,19 @@
+<section class="buttonRow">
+  <button (click)="createFreezerItem()" class="topButton addButton" color="primary" mat-mini-fab>
+    <mat-icon>add</mat-icon>
+  </button>
+  <button class="topButton reloadButton" color="secondary" mat-mini-fab>
+    <mat-icon>autorenew</mat-icon>
+  </button>
+</section>
+
 <div class="table-container mat-elevation-z8">
   <table [dataSource]="dataSource" mat-table matSort>
 
     <ng-container matColumnDef="content">
       <th *matHeaderCellDef mat-header-cell mat-sort-header> Inhalt</th>
-      <td *matCellDef="let freezeritem" class='m-card-title' data-label='Inhalt' mat-cell test><a
-        href='javascript:void'>{{freezeritem.content}}</a></td>
+      <td *matCellDef="let freezeritem" class='m-card-title' data-label='Inhalt' mat-cell test>{{freezeritem.content}}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="freezedate">
@@ -22,7 +31,8 @@
     </ng-container>
 
     <ng-container matColumnDef="actions">
-      <th *matHeaderCellDef mat-header-cell></th>
+      <th *matHeaderCellDef mat-header-cell>
+      </th>
       <td *matCellDef="let freezeritem" mat-cell>
         <button [matMenuTriggerFor]="menu" mat-icon-button>
           <mat-icon>more_vert</mat-icon>
@@ -41,7 +51,7 @@
     <mat-icon>edit</mat-icon>
     <span>Eintrag bearbeiten</span>
   </button>
-  <button disabled mat-menu-item>
+  <button mat-menu-item>
     <mat-icon>delete</mat-icon>
     <span>Eintrag löschen</span>
   </button>

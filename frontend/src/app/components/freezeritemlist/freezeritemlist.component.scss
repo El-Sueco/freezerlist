@@ -1,6 +1,15 @@
 table {
   width: 100%;
 }
+.buttonRow {
+  display: table;
+  margin: 10px;  
+  .topButton {
+    margin-right: 10px;
+  }
+}
+
+
 
 td.mat-column-actions {
   width: 20px;
@@ -9,14 +18,7 @@ td.mat-column-actions {
 
 .mat-mdc-row {
   &:hover {
-    background-color: #e9f3ff;
-  }
-  a {
-    color: #3e75ff;
-    text-decoration: none;
-    &:hover {
-    text-decoration: underline;
-    }
+    background-color: rgb(56, 56, 56);
   }
 }
 
@@ -100,6 +102,10 @@ td.mat-column-actions {
       right: 0;
       &:before {
         display: none;
+      }
+      
+      .addButton {
+        display:inline !important;
       }
     }
   }

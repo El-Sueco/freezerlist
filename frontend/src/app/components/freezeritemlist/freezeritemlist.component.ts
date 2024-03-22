@@ -1,13 +1,12 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { DrawerService } from '../../service/drawer/drawer.service';
-import { FreezerItem } from '../../models/freezeritem';
-import { MatTableDataSource } from '@Angular/material/table'
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { FreezerItemDataSource } from '../../service/datasource/freezeritem/freezeritemdatasource.service';
 import { FreezerItemService } from '../../service/freezeritem/freezeritem.service';
 import { Drawer } from '../../models/drawer';
-import { data } from 'jquery';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { CreateDialogComponent } from '../dialogs/create/create.dialog.component';
 
 @Component({
   selector: 'app-freezeritemlist',
@@ -24,6 +23,7 @@ export class FreezeritemlistComponent implements OnInit, AfterViewInit  {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
+    public dialog: MatDialog,
     private freezerItemService: FreezerItemService,
     private drawerService: DrawerService,
     private freezerItemDataSourceService: FreezerItemDataSource
@@ -44,5 +44,15 @@ export class FreezeritemlistComponent implements OnInit, AfterViewInit  {
   ngAfterViewInit() {
     //this.dataSource.sort = this.sort;
     //this.dataSource.paginator = this.paginator;
+  }
+
+  async createFreezerItem() {
+    const dialogRef = this.dialog.open(CreateDialogComponent, {
+      width: '250px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }

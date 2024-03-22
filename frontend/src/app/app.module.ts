@@ -16,6 +16,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule,
     MatProgressSpinnerModule,
     MatMenuModule,
-    MatCardModule
+    MatCardModule,
+    MatDialogModule,
+    MatFormFieldModule
   ],
   providers: [
     provideAnimationsAsync()
