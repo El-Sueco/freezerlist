@@ -52,8 +52,8 @@
       <mat-icon>edit</mat-icon>
       <span>Eintrag bearbeiten</span>
     </button>
-    <button mat-menu-item>
-      <mat-icon>delete</mat-icon>
+    <button (click)="deleteFreezerItem(freezeritem.id)" mat-menu-item>
+      <mat-icon color="warn">delete</mat-icon>
       <span>Eintrag löschen</span>
     </button>
   </ng-template>

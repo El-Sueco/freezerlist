@@ -9,6 +9,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateDialogComponent } from '../dialogs/create/create.dialog.component';
 import { FreezerItem } from '../../models/freezeritem';
 import { EditDialogComponent } from '../dialogs/edit/edit.dialog.component';
+import { DeleteDialogComponent } from '../dialogs/delete/delete.dialog.component';
 
 @Component({
   selector: 'app-freezeritemlist',
@@ -54,13 +55,14 @@ export class FreezeritemlistComponent implements OnInit, AfterViewInit  {
 
   createFreezerItem() {
     let freezerItem: FreezerItem = {
-      id: -1,
-      content: "",
+      id: null,
+      content: null,
       freezedate: new Date().toISOString(),
-      drawerId: -1
+      drawerId: null
     }
     const dialogRef = this.dialog.open(CreateDialogComponent, {
       width: '500px',
+      maxHeight: '100%',
       data: freezerItem
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -71,6 +73,18 @@ export class FreezeritemlistComponent implements OnInit, AfterViewInit  {
   editFreezerItem(id: number) {
     const dialogRef = this.dialog.open(EditDialogComponent, {
       width: '500px',
+      maxHeight: '100%',
+      data: {id}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadFreezerItems();
+    });
+  }
+
+  deleteFreezerItem(id: number) {
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '500px',
+      maxHeight: '100%',
       data: {id}
     });
     dialogRef.afterClosed().subscribe(result => {

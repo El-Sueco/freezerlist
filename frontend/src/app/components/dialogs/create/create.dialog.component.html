@@ -1,47 +1,49 @@
 <h3 mat-dialog-title>Eintrag hinzufügen</h3>
 
-<form #freezerItemForm="ngForm" (ngSubmit)="onSubmit(freezerItemForm)" mat-dialog-content>
-  <div class="form">
-    <mat-form-field>
-      <mat-label>Inhalt</mat-label>
-      <input [(ngModel)]="freezerItem.content" class="form-control" matInput name="content" placeholder="Content"
-             required>
-    </mat-form-field>
-  </div>
-  <div class="form">
-    <mat-form-field>
-      <mat-label>Datum</mat-label>
-      <input [(ngModel)]="freezerItem.freezedate" [matDatepicker]="picker" matInput name="freezedate"
-             placeholder="Datum" required>
-      <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-  </div>
+<form #freezerItemForm="ngForm" (ngSubmit)="onSubmit(freezerItemForm)">
+  <mat-dialog-content>
+    <div class="form">
+      <mat-form-field>
+        <mat-label>Inhalt</mat-label>
+        <input [(ngModel)]="freezerItem.content" class="form-control" matInput name="content" placeholder="Content"
+               required>
+      </mat-form-field>
+    </div>
+    <div class="form">
+      <mat-form-field>
+        <mat-label>Datum</mat-label>
+        <input [(ngModel)]="freezerItem.freezedate" [matDatepicker]="picker" matInput name="freezedate"
+               placeholder="Datum" required>
+        <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
 
-  <div class="form">
-    <mat-form-field>
-      <mat-label>Lade</mat-label>
-      <mat-select [(ngModel)]="freezerItem.drawerId" class="form-control" name="drawerId"
-                  placeholder="Lade auswählen" required>
-        <mat-option disabled>Lade auswählen</mat-option>
-        @for (drawer of drawers; track drawer) {
-        <mat-option [value]="drawer.id">{{drawer.physicalOrder}}. Lade</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div class="form">
-    <button (click)="fileInput.click()" mat-raised-button type="button">Bild hochladen</button>
-    <input #fileInput (change)="selectFile($event)" accept="image/*" capture class="form-control" hidden
-           id="image"
-           name="image" type="file"/>
-  </div>
+    <div class="form">
+      <mat-form-field>
+        <mat-label>Lade</mat-label>
+        <mat-select [(ngModel)]="freezerItem.drawerId" class="form-control" name="drawerId"
+                    placeholder="Lade auswählen" required>
+          <mat-option disabled>Lade auswählen</mat-option>
+          @for (drawer of drawers; track drawer) {
+          <mat-option [value]="drawer.id">{{drawer.physicalOrder}}. Lade</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form">
+      <button (click)="fileInput.click()" mat-raised-button type="button">Bild hochladen</button>
+      <input #fileInput (change)="selectFile($event)" accept="image/*" capture class="form-control" hidden
+             id="image"
+             name="image" type="file"/>
+    </div>
 
-  <div class="form">
-    <img [src]="preview" style="max-width: 100%; min-width: 50%; margin-top: 10px;">
-  </div>
-  <div mat-dialog-actions>
-    <button mat-button mat-dialog-close="1" type="submit">Save</button>
-    <button (click)="close()" mat-button tabindex="-1">Cancel</button>
+    <div class="form">
+      <img [src]="preview" style="max-width: 100%; min-width: 50%; margin-top: 10px;">
+    </div>
+  </mat-dialog-content>
+  <div align="end" mat-dialog-actions>
+    <button color="primary" mat-button mat-dialog-close="1" type="submit">Erstellen</button>
+    <button (click)="close()" color="warn" mat-button tabindex="-1" type="button">Abbrechen</button>
   </div>
 </form>

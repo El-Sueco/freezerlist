@@ -12,6 +12,7 @@ import { FreezerItemImageService } from '../../../service/freezeritemimage/freez
 @Component({
   selector: 'app-edit.dialog',
   templateUrl: '../../dialogs/edit/edit.dialog.component.html',
+  styleUrls: ['../../dialogs/edit/edit.dialog.component.scss'],
   providers: [{provide: MAT_DATE_LOCALE, useValue: 'de-DE'}, provideNativeDateAdapter()],
 })
 
