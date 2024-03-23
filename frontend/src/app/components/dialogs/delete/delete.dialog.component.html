@@ -1,0 +1,12 @@
+<h3 mat-dialog-title>{{ freezerItem.content }} löschen</h3>
+
+<form #freezerItemForm="ngForm" (ngSubmit)="onSubmit(freezerItemForm)">
+  <mat-dialog-content>
+    <p>Willst du wirklich <b color="primary">{{ freezerItem.content }}</b> in <b color="primary">{{ drawer.physicalOrder
+      }}. Lade</b> löschen?</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button color="warn" mat-button mat-dialog-close="1" type="submit">Löschen</button>
+    <button (click)="close()" mat-button tabindex="-1" type="button">Abbrechen</button>
+  </mat-dialog-actions>
+</form>

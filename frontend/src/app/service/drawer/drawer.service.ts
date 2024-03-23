@@ -7,7 +7,7 @@ import { data } from 'jquery';
 @Injectable({
   providedIn: 'root'
 })
-export class DrawerserviceService {
+export class DrawerService {
   private path = '/api/drawers';
 
   constructor(private http: HttpClient) {}

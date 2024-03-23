@@ -1,34 +1,65 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { FreezeritemlistComponent } from './components/freezeritemlist/freezeritemlist.component';
+import { CreateDialogComponent } from './components/dialogs/create/create.dialog.component';
+import { EditDialogComponent } from './components/dialogs/edit/edit.dialog.component';
+import { DeleteDialogComponent } from './components/dialogs/delete/delete.dialog.component';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DataTablesModule } from "angular-datatables";
-import { FreezeritemlistComponent } from './components/freezeritemlist/freezeritemlist.component';
 import { HttpClientModule } from '@angular/common/http';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CreatefreezeritemComponent } from './components/dialogs/createdialog/createfreezeritem/createfreezeritem.component';
-import { GetorupdatefreezeritemComponent } from './components/dialogs/getorupdatedialog/getorupdatefreezeritem/getorupdatefreezeritem.component';
-import { DeletefreezeritemComponent } from './components/dialogs/deletedialog/deletefreezeritem/deletefreezeritem.component';
 import { FormsModule } from '@angular/forms';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@Angular/material/table'
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
     AppComponent,
     FreezeritemlistComponent,
-    CreatefreezeritemComponent,
-    GetorupdatefreezeritemComponent,
-    DeletefreezeritemComponent
+    CreateDialogComponent,
+    EditDialogComponent,
+    DeleteDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    DataTablesModule,
     HttpClientModule,
-    NgbModule,
-    FormsModule
+    FormsModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatMenuModule,
+    MatCardModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatGridListModule
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

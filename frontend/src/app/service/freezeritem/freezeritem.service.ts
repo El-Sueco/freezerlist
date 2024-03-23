@@ -7,7 +7,7 @@ import { data } from 'jquery';
 @Injectable({
   providedIn: 'root'
 })
-export class FreezeritemserviceService {
+export class FreezerItemService {
   private path = '/api/freezerItems';
 
   constructor(private http: HttpClient) {}
