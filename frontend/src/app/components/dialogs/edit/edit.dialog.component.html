@@ -9,6 +9,7 @@
         <mat-label>Inhalt</mat-label>
         <input [(ngModel)]="freezerItem.content" class="form-control" matInput name="content" placeholder="Content"
                required>
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>
     <div class="form">
@@ -18,6 +19,7 @@
                placeholder="Datum" required>
         <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>
 
@@ -31,6 +33,7 @@
           <mat-option [value]="drawer.id">{{drawer.physicalOrder}}. Lade</mat-option>
           }
         </mat-select>
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>
     <div class="form">
@@ -45,7 +48,9 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button color="primary" mat-button mat-dialog-close="1" type="submit">Speichern</button>
+    <button [disabled]="!freezerItemForm.valid" color="primary" mat-button mat-dialog-close="1" type="submit">
+      Speichern
+    </button>
     <button (click)="close()" color="warn" mat-button tabindex="-1" type="button">Abbrechen</button>
   </mat-dialog-actions>
 </form>

@@ -8,6 +8,7 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 import { FreezerItemService } from '../../../service/freezeritem/freezeritem.service';
 import { FreezerItemImage } from '../../../models/freezeritemimage';
 import { FreezerItemImageService } from '../../../service/freezeritemimage/freezeritemimage.service';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-edit.dialog',
@@ -43,6 +44,14 @@ export class EditDialogComponent implements OnInit{
     private freezerItemImageService: FreezerItemImageService,
     private imageCompress: NgxImageCompressService
   ) { }
+
+  formControl = new FormControl('', [
+    Validators.required
+  ]);
+
+  getErrorMessage() {
+    return this.formControl.hasError('required') ? 'Pflichtfeld': "";
+  }
 
   ngOnInit(): void {
     this.drawerService.getDrawers().subscribe({
