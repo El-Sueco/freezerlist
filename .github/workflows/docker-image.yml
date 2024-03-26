@@ -29,8 +29,9 @@ jobs:
 
       - name: What is the event?
         run: |
-          if [{{ github.event.action }} == 'released' ]; then 
-            echo "this action was cause by a release add " + ${{ secrets.DOCKER_USERNAME }}/freezerlist:latest
+          echo ${{ github.event.action }}
+          if [${{ github.event.action }} == 'released' ]; then 
+            echo "this action was cause by a release " + ${{ secrets.DOCKER_USERNAME }}/freezerlist:latest
           fi
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -46,8 +47,9 @@ jobs:
           push: true
           platforms: linux/arm64
           tags: |
-            echo ${{ steps.meta.outputs.tags }}
-            if [{{ github.event.action }} == 'released' ]; then
-              echo ${{ secrets.DOCKER_USERNAME }}/freezerlist:latest
+            if [${{ github.event.action }} == 'released' ]; then
+              echo ${{ steps.meta.outputs.tags }} + "," + ${{ secrets.DOCKER_USERNAME }}/freezerlist:latest
+            else 
+              echo ${{ steps.meta.outputs.tags }}
             fi
           labels: ${{ steps.meta.outputs.labels }}
