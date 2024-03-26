@@ -2,7 +2,7 @@ name: Publish Docker image
 
 on:
   release:
-    types: [published]
+    types: [released]
   push:
     branches:
       - 'develop'
@@ -29,13 +29,8 @@ jobs:
 
       - name: What is the event?
         run: |
-          echo "${{ github.event.action }}"
-          if [ ${{ github.event }} == 'pull_request' ]; then
-            echo "This is a pull request event"
-          elif [ ${{ github.event_name }} == 'push' ]; then
-            echo "This is a push event"
-          else
-            echo "This is an unknown event"
+          if [{{ github.event.action }} == 'released' ]; then 
+            echo "this action was cause by a release add " + ${{ secrets.DOCKER_USERNAME }}/freezerlist:latest
           fi
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -50,5 +45,9 @@ jobs:
           file: ./Dockerfile
           push: true
           platforms: linux/arm64
-          tags: ${{ steps.meta.outputs.tags }}, ${{ secrets.DOCKER_USERNAME }}/freezerlist:latest
+          tags: |
+            echo ${{ steps.meta.outputs.tags }}
+            if [{{ github.event.action }} == 'released' ]; then
+              echo ${{ secrets.DOCKER_USERNAME }}/freezerlist:latest
+            fi
           labels: ${{ steps.meta.outputs.labels }}
