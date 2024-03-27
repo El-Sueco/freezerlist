@@ -38,7 +38,8 @@ td.mat-column-actions {
   }
 
   .mat-mdc-header-row {
-    display: none;
+    display: inline-table;
+    width: 100%;
   }
 
   tbody {
@@ -62,7 +63,11 @@ td.mat-column-actions {
       background-color: #3b3b3b;
       border-radius: 3px;
       + .mat-mdc-row {
-        margin-top: 24px;
+        margin-top: 10px;
+      }
+      & :first-child {
+        font-weight: bold;
+        color: #9d72af;
       }
     }
 
@@ -70,7 +75,7 @@ td.mat-column-actions {
       display: block;
       width: 100%;
       padding: 0 16px;
-      margin: 16px 0;
+      margin: 10px 0;
       border: 0 none;
       &:first-child {
         padding: 0 48px 0 16px;

@@ -1,11 +1,4 @@
-<section class="buttonRow">
-  <button (click)="createFreezerItem()" class="topButton addButton" color="primary" mat-mini-fab>
-    <mat-icon>add</mat-icon>
-  </button>
-  <button (click)="loadFreezerItems()" class="topButton reloadButton" color="secondary" mat-mini-fab>
-    <mat-icon>autorenew</mat-icon>
-  </button>
-</section>
+
 
 <div class="table-container mat-elevation-z8">
   <table [dataSource]="dataSource" mat-table matSort>
@@ -32,6 +25,9 @@
 
     <ng-container matColumnDef="actions">
       <th *matHeaderCellDef mat-header-cell>
+          <button (click)="createFreezerItem()" class="topButton addButton" color="primary" mat-mini-fab>
+            <mat-icon>add</mat-icon>
+          </button>
       </th>
       <td *matCellDef="let freezeritem" mat-cell>
         <button [matMenuTriggerData]="{freezeritem: freezeritem}" [matMenuTriggerFor]="menu" mat-icon-button>

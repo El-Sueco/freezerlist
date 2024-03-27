@@ -2,7 +2,6 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { DrawerService } from '../../service/drawer/drawer.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { FreezerItemDataSource } from '../../service/datasource/freezeritem/freezeritemdatasource.service';
 import { FreezerItemService } from '../../service/freezeritem/freezeritem.service';
 import { Drawer } from '../../models/drawer';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
