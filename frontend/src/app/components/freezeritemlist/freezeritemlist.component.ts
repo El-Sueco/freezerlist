@@ -10,16 +10,17 @@ import { CreateDialogComponent } from '../dialogs/create/create.dialog.component
 import { FreezerItem } from '../../models/freezeritem';
 import { EditDialogComponent } from '../dialogs/edit/edit.dialog.component';
 import { DeleteDialogComponent } from '../dialogs/delete/delete.dialog.component';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-freezeritemlist',
   templateUrl: './freezeritemlist.component.html',
   styleUrls: ['./freezeritemlist.component.scss']
 })
-export class FreezeritemlistComponent implements OnInit, AfterViewInit  {
+export class FreezeritemlistComponent implements OnInit  {
 
   displayedColumns: string[] = ['content', 'freezedate', 'drawerId', 'actions'];
-  dataSource!: FreezerItemDataSource;
+  dataSource!: MatTableDataSource<FreezerItem>;
   drawers?: Drawer[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -32,7 +33,6 @@ export class FreezeritemlistComponent implements OnInit, AfterViewInit  {
   ) { }
  
   ngOnInit(): void {
-    this.dataSource = new FreezerItemDataSource(this.freezerItemService);
     this.loadFreezerItems();
 
     this.drawerService.getDrawers().subscribe({
@@ -43,14 +43,13 @@ export class FreezeritemlistComponent implements OnInit, AfterViewInit  {
       }
     });
   }
-  
-  ngAfterViewInit() {
-    //this.dataSource.sort = this.sort;
-    //this.dataSource.paginator = this.paginator;
-  }
 
   loadFreezerItems() {
-    this.dataSource.loadFreezerItems();
+    this.freezerItemService.getFreezerItems().subscribe(freezerItem => {
+      this.dataSource = new MatTableDataSource(freezerItem);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    });
   }
 
   createFreezerItem() {
